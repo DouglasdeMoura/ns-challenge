@@ -1,7 +1,7 @@
 import { createMocks } from 'node-mocks-http';
 
-import handleUsername from '../../../../pages/api/users/[username]';
-import { gitHubService } from '../../../../services/GithubService/GithubService';
+import handleUsername from '../../../../pages/api/users/[userid]';
+import { gitHubService } from '../../../../api/services/GithubService/GithubService';
 
 describe('[username]', () => {
   const responseData = {
@@ -22,7 +22,7 @@ describe('[username]', () => {
     const { req, res } = createMocks({
       method: 'GET',
       query: {
-        username: 'test_user',
+        userid: 'test_user',
       },
     });
 
@@ -35,7 +35,7 @@ describe('[username]', () => {
 
     await handleUsername(request, response);
 
-    expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.username);
+    expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.userid);
     expect(response._getStatusCode()).toBe(200);
     expect(response._getJSONData()).toEqual(responseData.data.user);
   });
@@ -47,7 +47,7 @@ describe('[username]', () => {
 
     await handleUsername(request, response);
 
-    expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.username);
+    expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.userid);
     expect(response._getStatusCode()).toBe(404);
     expect(response._getJSONData()).toEqual({ message: 'Mocked error' });
   });
@@ -59,7 +59,7 @@ describe('[username]', () => {
 
     await handleUsername(request, response);
 
-    expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.username);
+    expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.userid);
     expect(response._getStatusCode()).toBe(500);
     expect(response._getJSONData()).toEqual({ message: 'Mocked error' });
   });
