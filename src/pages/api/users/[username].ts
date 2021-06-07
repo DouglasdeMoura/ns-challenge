@@ -1,7 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import corsFn from 'cors';
+
 import { gitHubService } from '../../../services/GithubService/GithubService';
+import { initMiddleware } from '../../../helpers/initMiddleware';
+
+const cors = initMiddleware(corsFn({ methods: ['GET'] }));
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await cors(req, res);
+
   const { username } = req.query;
 
   try {
@@ -15,8 +22,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         login: response.data.user.login,
       });
   } catch (error) {
+    const statusCode = error.type === 'NOT_FOUND' ? 404 : 500;
+
     res
-      .status(404)
-      .json({ message: 'Unable to retrieve user\'s data' });
+      .status(statusCode)
+      .json({ message: error.message });
   }
 };

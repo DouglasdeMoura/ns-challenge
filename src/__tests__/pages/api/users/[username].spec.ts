@@ -1,4 +1,3 @@
-import { ApolloError } from '@apollo/client';
 import { createMocks } from 'node-mocks-http';
 
 import handleUsername from '../../../../pages/api/users/[username]';
@@ -41,15 +40,27 @@ describe('[username]', () => {
     expect(response._getJSONData()).toEqual(responseData.data.user);
   });
 
-  it('should return an error when given username is invalid/non-existent', async () => {
+  it('should return a 404 error when error type is equal to NOT_FOUND', async () => {
     jest.spyOn(gitHubService, 'getUser').mockImplementationOnce(() => (
-      Promise.reject(() => new ApolloError({ errorMessage: '' }))
+      Promise.reject({ type: 'NOT_FOUND', message: 'Mocked error' })
     ));
 
     await handleUsername(request, response);
 
     expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.username);
     expect(response._getStatusCode()).toBe(404);
-    expect(response._getJSONData()).toEqual({ message: 'Unable to retrieve user\'s data' });
+    expect(response._getJSONData()).toEqual({ message: 'Mocked error' });
+  });
+
+  it('should return a 500 error when error type is not equal NOT_FOUND', async () => {
+    jest.spyOn(gitHubService, 'getUser').mockImplementationOnce(() => (
+      Promise.reject({ type: 'ANY', message: 'Mocked error' })
+    ));
+
+    await handleUsername(request, response);
+
+    expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.username);
+    expect(response._getStatusCode()).toBe(500);
+    expect(response._getJSONData()).toEqual({ message: 'Mocked error' });
   });
 });
