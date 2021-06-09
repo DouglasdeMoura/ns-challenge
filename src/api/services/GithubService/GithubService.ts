@@ -2,7 +2,8 @@ import type { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
 import { UserDataResponse } from './types';
 import { client as apolloClient } from './client';
-import { GET_USER_BY_LOGIN } from './queries';
+import { GET_USER_DATA_BY_LOGIN } from './queries';
+import { userDataMapper } from './utils/userDataMapper';
 
 export class GitHubService {
   constructor(private client: ApolloClient<NormalizedCacheObject>) {
@@ -11,9 +12,12 @@ export class GitHubService {
 
   getUser = (username: string) => (
     this.client.query<UserDataResponse>({
-      query: GET_USER_BY_LOGIN,
+      query: GET_USER_DATA_BY_LOGIN,
       variables: { username },
     })
+      .then((res) => (
+        userDataMapper(res.data)
+      ))
   )
 }
 

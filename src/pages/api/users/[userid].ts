@@ -16,11 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res
       .status(200)
-      .json({
-        avatarUrl: response.data.user.avatarUrl,
-        name: response.data.user.name,
-        login: response.data.user.login,
-      });
+      .json(response);
   } catch (error) {
     const statusCode = error.type === 'NOT_FOUND' ? 404 : 500;
 

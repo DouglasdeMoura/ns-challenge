@@ -2,18 +2,19 @@ import { createMocks } from 'node-mocks-http';
 
 import handleUsername from '../../../../pages/api/users/[userid]';
 import { gitHubService } from '../../../../api/services/GithubService/GithubService';
+import { UserData } from '../../../../api/services/GithubService/types';
 
 describe('[username]', () => {
-  const responseData = {
-    data: {
-      user: {
-        avatarUrl: 'test_avatar',
-        name: 'test_name',
-        login: 'test_user',
-      },
-    },
-    loading: false,
-    networkStatus: 200,
+  const responseData: UserData = {
+    avatarUrl: 'test_avatarUrl',
+    name: 'test_name',
+    login: 'test_login',
+    followers: 1,
+    following: 1,
+    starredRepositories: 1,
+    twitterUsername: 'test_twitterUsername',
+    organizations: [],
+    topRepositories: [],
   };
   let request;
   let response;
@@ -37,7 +38,7 @@ describe('[username]', () => {
 
     expect(gitHubService.getUser).toHaveBeenCalledWith(request.query.userid);
     expect(response._getStatusCode()).toBe(200);
-    expect(response._getJSONData()).toEqual(responseData.data.user);
+    expect(response._getJSONData()).toEqual(responseData);
   });
 
   it('should return a 404 error when error type is equal to NOT_FOUND', async () => {
