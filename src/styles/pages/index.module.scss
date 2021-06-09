@@ -1,0 +1,20 @@
+@import 'src/styles/mixins';
+
+.container {
+  @include flexbox;
+  @include fullScreen;
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-family: 'Lexend', sans-serif;
+    color: var(--grey-800);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.inputBlock {
+  display: flex;
+  gap: 1rem;
+}
