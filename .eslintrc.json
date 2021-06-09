@@ -42,7 +42,8 @@
     "max-len": ["error", { "ignoreTemplateLiterals": true, "code": 120, "ignoreStrings": true }],
     "no-underscore-dangle": "off",
     "react/react-in-jsx-scope": "off",
-    "jsx-a11y/label-has-associated-control": "off"
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/anchor-is-valid": "off"
   },
   "globals": {
     "describe": true,
