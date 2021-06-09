@@ -7,7 +7,8 @@ type Organization = {
 type TopRepositories = {
   name: string,
   description: string,
-  primary: {
+  url: string,
+  primaryLanguage: {
     name: string,
   },
   stargazerCount: number,

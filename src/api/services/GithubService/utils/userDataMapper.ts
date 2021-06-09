@@ -28,7 +28,8 @@ export function userDataMapper(userDataResponse: UserDataResponse) {
     starredRepositories: starredRepositories.totalCount,
     topRepositories: topRepositories.nodes.map((item) => ({
       name: item.name,
-      primary: item.primary,
+      url: item.url,
+      primaryLanguage: item.primaryLanguage,
       description: item.description,
       forkCount: item.forkCount,
       stargazerCount: item.stargazerCount,

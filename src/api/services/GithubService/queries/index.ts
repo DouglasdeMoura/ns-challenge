@@ -26,6 +26,7 @@ export const GET_USER_DATA_BY_LOGIN = gql`
       topRepositories(first: 6, orderBy: {field: CREATED_AT, direction: DESC}) {
         nodes {
           name
+          url
           description
           primaryLanguage {
             name
